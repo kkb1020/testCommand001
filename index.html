@@ -3,35 +3,809 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>test</title>
+  <title>ReelPulse | 영화 추천 플랫폼</title>
   <style>
     :root {
-      color-scheme: light;
+      --bg: #070b14;
+      --bg-soft: #0d1424;
+      --panel: rgba(13, 20, 36, 0.82);
+      --panel-strong: #121b2f;
+      --text: #eef2ff;
+      --muted: #a9b4cf;
+      --line: rgba(255, 255, 255, 0.08);
+      --accent: #ff6b4a;
+      --accent-2: #ffb347;
+      --chip: rgba(255, 255, 255, 0.08);
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
     }
 
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      display: grid;
-      place-items: center;
+      margin: 0;
+      min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 107, 74, 0.2), transparent 30%),
+        radial-gradient(circle at top right, rgba(255, 179, 71, 0.18), transparent 28%),
+        linear-gradient(180deg, #04070c 0%, var(--bg) 100%);
     }
 
-    .message {
-      font-size: clamp(4rem, 12vw, 10rem);
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 20px 0 40px;
+    }
+
+    .topbar,
+    .hero,
+    .section,
+    .footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(6, 10, 18, 0.78);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #120d09;
+      box-shadow: 0 12px 30px rgba(255, 107, 74, 0.35);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav a {
+      transition: color 180ms ease;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      min-height: 72vh;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      border-radius: 32px;
+      padding: 32px;
+      background:
+        linear-gradient(90deg, rgba(5, 8, 14, 0.95) 24%, rgba(5, 8, 14, 0.45) 54%, rgba(5, 8, 14, 0.15) 100%),
+        radial-gradient(circle at right center, rgba(255, 107, 74, 0.32), transparent 25%),
+        linear-gradient(135deg, #131a2b 0%, #1c2540 42%, #070b14 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.09), transparent 36%),
+        repeating-linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0,
+          rgba(255, 255, 255, 0.02) 12px,
+          transparent 12px,
+          transparent 24px
+        );
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 680px;
+      display: grid;
+      gap: 18px;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffe7dc;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 6vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #140e0b;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(10, 15, 28, 0.72);
+      border: 1px solid var(--line);
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.2rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: 28px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 56ch;
+      line-height: 1.6;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .movie-card,
+    .genre-card,
+    .daily-card {
+      overflow: hidden;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+      border: 1px solid var(--line);
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .movie-card:hover,
+    .genre-card:hover,
+    .daily-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: rgba(255, 179, 71, 0.42);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.36);
+    }
+
+    .poster {
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(160deg, rgba(255, 107, 74, 0.95), rgba(20, 28, 45, 0.95));
+      position: relative;
+      display: grid;
+      align-items: end;
+      padding: 16px;
+      isolation: isolate;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.25), transparent 22%),
+        linear-gradient(180deg, transparent 35%, rgba(6, 8, 14, 0.78) 100%);
+      z-index: -1;
+    }
+
+    .poster .badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.8rem;
+      color: #fff0e9;
+    }
+
+    .poster h3 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+    }
+
+    .poster p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .card-body {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .rating {
+      color: #ffd56a;
+      font-weight: 700;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--chip);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
+    .genre-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .genre-card {
+      padding: 20px;
+      min-height: 180px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+        linear-gradient(135deg, rgba(255, 107, 74, 0.08), rgba(17, 24, 39, 0.28));
+    }
+
+    .genre-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .genre-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .genre-tag {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: #ffe7dc;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+    }
+
+    .daily-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .daily-card {
+      min-height: 100%;
+      background:
+        linear-gradient(135deg, rgba(255, 107, 74, 0.14), rgba(13, 20, 36, 0.88)),
+        rgba(10, 15, 28, 0.9);
+    }
+
+    .daily-card.hero-shot {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      align-content: end;
+      min-height: 420px;
+    }
+
+    .hero-shot .movie-cover {
+      width: 100%;
+      min-height: 250px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.24), transparent 20%),
+        linear-gradient(135deg, rgba(255, 107, 74, 0.95), rgba(41, 72, 123, 0.92) 60%, rgba(8, 11, 18, 0.96));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .movie-cover::after {
+      content: "TODAY";
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(5, 8, 14, 0.45);
+      color: #fff;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+    }
+
+    .daily-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .daily-card.small {
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      min-height: 200px;
+    }
+
+    .daily-card.small strong {
+      font-size: 1.05rem;
+    }
+
+    .daily-card.small p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      padding: 22px 4px 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .genre-grid,
+      .daily-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 20px, 1200px);
+        padding-top: 10px;
+      }
+
+      .topbar,
+      .section,
+      .hero {
+        border-radius: 22px;
+      }
+
+      .topbar {
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav {
+        gap: 14px;
+      }
+
+      .hero,
+      .section {
+        padding: 20px;
+      }
+
+      .stats,
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head,
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="message">test</main>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand" aria-label="ReelPulse">
+        <span class="brand-mark">R</span>
+        <span>ReelPulse</span>
+      </div>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="#popular">인기 영화</a>
+        <a href="#genres">장르 추천</a>
+        <a href="#today">오늘의 추천</a>
+        <a href="#footer">문의</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <span class="eyebrow">오늘의 큐레이션 · 빠른 추천 · 프리미엄 감성</span>
+          <h1 id="hero-title">당신의 밤을 완성할 영화 한 편을 추천합니다</h1>
+          <p>
+            ReelPulse는 분위기, 장르, 평점, 최신 트렌드를 함께 고려해 지금 바로 보고 싶은 작품을
+            선별하는 영화 추천 플랫폼입니다. Netflix 스타일의 몰입감 있는 비주얼과 카드 중심 UI로
+            편안하게 탐색할 수 있습니다.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#popular">추천 둘러보기</a>
+            <a class="btn btn-secondary" href="#today">오늘의 픽 확인</a>
+          </div>
+          <div class="stats" aria-label="플랫폼 요약">
+            <div class="stat">
+              <strong>1,200+</strong>
+              <span>검토된 영화 카드와 추천 태그</span>
+            </div>
+            <div class="stat">
+              <strong>98%</strong>
+              <span>사용자 만족도가 높은 개인화 추천</span>
+            </div>
+            <div class="stat">
+              <strong>24h</strong>
+              <span>하루 단위로 갱신되는 오늘의 추천</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="popular" aria-labelledby="popular-title">
+        <div class="section-head">
+          <div>
+            <h2 id="popular-title">현재 상영작</h2>
+            <p>CGV 메인 화면처럼 지금 볼 수 있는 작품을 먼저 보여줍니다. 제목, 장르, 평점, 짧은 설명을 함께 넣어 빠르게 고를 수 있게 했습니다.</p>
+          </div>
+        </div>
+        <div class="card-grid" id="current-grid"></div>
+      </section>
+
+      <section class="section" id="upcoming" aria-labelledby="upcoming-title">
+        <div class="section-head">
+          <div>
+            <h2 id="upcoming-title">상영예정작</h2>
+            <p>곧 만날 수 있는 작품들을 모아 두었습니다. 개봉 분위기와 기대 포인트를 함께 확인할 수 있습니다.</p>
+          </div>
+        </div>
+        <div class="card-grid" id="upcoming-grid"></div>
+      </section>
+
+      <section class="section" id="genres" aria-labelledby="genres-title">
+        <div class="section-head">
+          <div>
+            <h2 id="genres-title">장르별 추천 섹션</h2>
+            <p>장르별로 작품의 성격과 추천 이유를 정리해 취향에 맞는 탐색이 빠르게 가능하도록 구성했습니다.</p>
+          </div>
+        </div>
+        <div class="genre-grid" id="genre-grid"></div>
+      </section>
+
+      <section class="section" id="today" aria-labelledby="today-title">
+        <div class="section-head">
+          <div>
+            <h2 id="today-title">오늘의 추천 영화 섹션</h2>
+            <p>하루 한 번 확인하기 좋은 추천 카드와 짧은 감상 포인트를 함께 제공합니다.</p>
+          </div>
+        </div>
+        <div class="daily-grid">
+          <article class="daily-card hero-shot">
+            <div class="movie-cover" aria-hidden="true"></div>
+            <div>
+              <span class="genre-tag">Editor's Pick</span>
+              <h3 style="margin: 12px 0 8px; font-size: 1.6rem;">Midnight Mirage</h3>
+              <p style="margin: 0; color: var(--muted); line-height: 1.7;">
+                어두운 도시의 네온과 정교한 서사가 어우러지는 미스터리 스릴러입니다. 감정선이 촘촘하게
+                이어지는 전개 덕분에 몰입감이 뛰어나며, 오늘 밤 가장 먼저 추천하고 싶은 작품입니다.
+              </p>
+            </div>
+          </article>
+          <div class="daily-stack">
+            <article class="daily-card small">
+              <span class="genre-tag">Warm Drama</span>
+              <strong>Paper Lantern</strong>
+              <p>
+                잔잔한 회복과 관계의 온기를 다루는 작품으로, 감정의 결을 천천히 따라가고 싶은 날에 잘 맞습니다.
+              </p>
+            </article>
+            <article class="daily-card small">
+              <span class="genre-tag">Action Pulse</span>
+              <strong>Zero Horizon</strong>
+              <p>
+                템포 빠른 액션과 선명한 시각적 스타일이 특징입니다. 짧은 시간 안에 강한 에너지를 받고 싶을 때 적합합니다.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="footer">
+      <span>© <span id="year"></span> ReelPulse. Movie recommendations with style.</span>
+      <div class="footer-links" aria-label="푸터 링크">
+        <a href="#popular">인기 영화</a>
+        <a href="#genres">장르 추천</a>
+        <a href="#today">오늘의 추천</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const currentMovies = [
+      {
+        title: "Neon Harbor",
+        desc: "사이버펑크 감성의 도시에서 벌어지는 추적극. 짙은 색감과 빠른 전개가 인상적입니다.",
+        rating: "9.2",
+        tag: "Thriller"
+      },
+      {
+        title: "Velvet Sky",
+        desc: "섬세한 감정선과 풍부한 음악이 돋보이는 로맨스 드라마. 여운이 길게 남습니다.",
+        rating: "8.9",
+        tag: "Romance"
+      },
+      {
+        title: "Iron Trace",
+        desc: "전략과 반전이 촘촘한 첩보 액션. 차가운 긴장감을 끝까지 유지합니다.",
+        rating: "9.0",
+        tag: "Action"
+      },
+      {
+        title: "Moon Archive",
+        desc: "미스터리와 판타지가 만난 감각적인 작품. 상상력을 자극하는 비주얼이 강점입니다.",
+        rating: "8.8",
+        tag: "Fantasy"
+      }
+    ];
+
+    const upcomingMovies = [
+      {
+        title: "Sunset Archive",
+        desc: "감성적인 음악과 세밀한 연출이 기대되는 작품. 개봉 전부터 관심이 높은 드라마입니다.",
+        rating: "예정",
+        tag: "Drama"
+      },
+      {
+        title: "Quantum Drift",
+        desc: "미래 도시와 시간 여행 설정이 결합된 SF 액션. 큰 스케일의 화면이 기대됩니다.",
+        rating: "예정",
+        tag: "Sci-Fi"
+      },
+      {
+        title: "Blue Hour Club",
+        desc: "도시의 밤을 배경으로 한 감각적인 음악 영화. 분위기와 색감이 강한 기대작입니다.",
+        rating: "예정",
+        tag: "Music"
+      },
+      {
+        title: "Hidden Frame",
+        desc: "퍼즐처럼 얽힌 사건을 풀어가는 미스터리. 반전과 긴장감이 포인트인 작품입니다.",
+        rating: "예정",
+        tag: "Mystery"
+      }
+    ];
+
+    const genres = [
+      {
+        title: "스릴러",
+        tag: "긴장감 높은 전개",
+        desc: "작은 단서가 큰 반전을 만드는 구성으로 몰입감을 원하는 사용자에게 추천합니다."
+      },
+      {
+        title: "드라마",
+        tag: "감정 몰입형",
+        desc: "인물의 성장과 관계 변화를 세밀하게 따라가며 깊은 여운을 남기는 작품을 모았습니다."
+      },
+      {
+        title: "SF",
+        tag: "미래적 상상력",
+        desc: "세계관 설계와 비주얼이 돋보이며, 새로운 설정과 질문을 던지는 이야기에 적합합니다."
+      }
+    ];
+
+    const currentGrid = document.getElementById("current-grid");
+    const upcomingGrid = document.getElementById("upcoming-grid");
+    const genreGrid = document.getElementById("genre-grid");
+
+    currentGrid.innerHTML = currentMovies.map((movie) => `
+      <article class="movie-card">
+        <div class="poster">
+          <span class="badge">${movie.tag}</span>
+          <div>
+            <h3>${movie.title}</h3>
+            <p>${movie.desc}</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="meta">
+            <span>오늘의 인기</span>
+            <span class="rating">★ ${movie.rating}</span>
+          </div>
+          <div class="chips">
+            <span class="chip">추천 완료</span>
+            <span class="chip">고화질</span>
+          </div>
+        </div>
+      </article>
+    `).join("");
+
+    upcomingGrid.innerHTML = upcomingMovies.map((movie) => `
+      <article class="movie-card">
+        <div class="poster">
+          <span class="badge">${movie.tag}</span>
+          <div>
+            <h3>${movie.title}</h3>
+            <p>${movie.desc}</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="meta">
+            <span>개봉 예정</span>
+            <span class="rating">${movie.rating}</span>
+          </div>
+          <div class="chips">
+            <span class="chip">예정작</span>
+            <span class="chip">관심 등록</span>
+          </div>
+        </div>
+      </article>
+    `).join("");
+
+    genreGrid.innerHTML = genres.map((genre) => `
+      <article class="genre-card">
+        <strong>${genre.title}</strong>
+        <p>${genre.desc}</p>
+        <span class="genre-tag">${genre.tag}</span>
+      </article>
+    `).join("");
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
