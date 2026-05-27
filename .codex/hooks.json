@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"$(git rev-parse --show-toplevel)\\.codex\\hooks\\post-html-validation.ps1\"",
-            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"$(git rev-parse --show-toplevel)\\.codex\\hooks\\post-html-validation.ps1\"",
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"D:\\work\\testCommand001\\.codex\\hooks\\post-html-validation.ps1\"",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"D:\\work\\testCommand001\\.codex\\hooks\\post-html-validation.ps1\"",
             "timeout": 60,
             "statusMessage": "Validating updated HTML"
           }
@@ -19,8 +19,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"$(git rev-parse --show-toplevel)\\.codex\\hooks\\stop-test-and-commit.ps1\"",
-            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"$(git rev-parse --show-toplevel)\\.codex\\hooks\\stop-test-and-commit.ps1\"",
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"D:\\work\\testCommand001\\.codex\\hooks\\stop-test-and-commit.ps1\"",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"D:\\work\\testCommand001\\.codex\\hooks\\stop-test-and-commit.ps1\"",
             "timeout": 60,
             "statusMessage": "Running final validation and auto-commit"
           }

@@ -28,6 +28,9 @@ sandbox_mode = "workspace-write"
 # 정책을 완화하면 진행은 빨라지지만 위험한 작업이 늘 수 있고, 더 엄격하게 두면 안전하지만 멈춤이 잦아질 수 있습니다.
 approval_policy = "on-request"
 
+[features]
+hooks = true
+
 # 아래 항목들은 병렬 처리 폭과 작업 깊이, 개별 작업의 최대 실행 시간을 조절합니다.
 # 현재 값은 이 저장소에서 여러 작업을 동시에 다루되 너무 깊게 파고들지 않고, 각 작업을 일정 시간 안에 끝내도록 맞춘 상태입니다.
 # 더 큰 값은 더 많은 병렬 처리나 더 긴 실행 시간을 허용하지만 자원 사용과 지연이 늘 수 있습니다.
@@ -51,3 +54,21 @@ max_depth = 1
 # 다른 값으로는 더 짧은 시간이나 더 긴 시간을 둘 수 있습니다.
 # 값을 높이면 긴 작업이 끝날 가능성이 커지지만 지연이 늘고, 낮추면 빨리 실패를 감지하지만 큰 작업이 끊길 수 있습니다.
 job_max_runtime_seconds = 1800
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+startup_timeout_sec = 20
+required = false
+
+[mcp_servers.firecrawl]
+command = "powershell.exe"
+args = ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", ".codex/mcp/firecrawl.ps1"]
+startup_timeout_sec = 20
+required = false
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+startup_timeout_sec = 20
+required = false

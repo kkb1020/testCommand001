@@ -155,8 +155,8 @@ foreach ($file in $pythonFiles) {
   }
 }
 
-& git -C $repoRoot add .
-& git -C $repoRoot commit -m 'auto: Codex generated update'
+& git -C $repoRoot add . *> $null
+& git -C $repoRoot commit -m 'auto: Codex generated update' *> $null
 $commitHash = (& git -C $repoRoot rev-parse --short HEAD).Trim()
 Add-HookLog "[HOOK] Stop commit created: $commitHash"
 
