@@ -1,0 +1,446 @@
+# Windows와 PowerShell 5.1 환경 기준의 shell 승인 규칙이다.
+# 프로젝트 루트 내부의 읽기, 검색, 테스트, 안전한 수정은 allow로 두고, 위험한 조작은 prompt 또는 forbidden으로 분리한다.
+
+# 읽기와 탐색은 프로젝트 내부 작업 흐름을 막지 않도록 즉시 허용한다.
+# decision의 대안은 prompt와 forbidden이며, 값을 높일수록 더 많은 명령이 멈춘다.
+prefix_rule(
+    pattern = ["ls"],
+    decision = "allow",
+    justification = "프로젝트 내부 구조 확인은 자동 허용한다.",
+    match = [
+        "ls",
+        "ls -Force",
+    ],
+)
+
+prefix_rule(
+    pattern = ["pwd"],
+    decision = "allow",
+    justification = "현재 위치 확인은 자동 허용한다.",
+    match = [
+        "pwd",
+        "pwd | Out-String",
+    ],
+)
+
+prefix_rule(
+    pattern = ["cat"],
+    decision = "allow",
+    justification = "파일 내용 읽기는 프로젝트 내부에서 허용한다.",
+    match = [
+        "cat README.md",
+        "cat AGENTS.md",
+    ],
+)
+
+prefix_rule(
+    pattern = ["head"],
+    decision = "allow",
+    justification = "파일 앞부분 확인은 프로젝트 내부에서 허용한다.",
+    match = [
+        "head -n 20 package.json",
+        "head AGENTS.md",
+    ],
+)
+
+prefix_rule(
+    pattern = ["tail"],
+    decision = "allow",
+    justification = "파일 뒷부분 확인은 프로젝트 내부에서 허용한다.",
+    match = [
+        "tail -n 20 package.json",
+        "tail AGENTS.md",
+    ],
+)
+
+prefix_rule(
+    pattern = ["rg"],
+    decision = "allow",
+    justification = "프로젝트 내부 검색은 자동 허용한다.",
+    match = [
+        "rg TODO",
+        "rg --files",
+    ],
+)
+
+prefix_rule(
+    pattern = ["grep"],
+    decision = "allow",
+    justification = "텍스트 검색은 프로젝트 내부에서 허용한다.",
+    match = [
+        "grep TODO src/app.py",
+        "grep -R FIXME .",
+    ],
+)
+
+prefix_rule(
+    pattern = ["find"],
+    decision = "allow",
+    justification = "파일 탐색은 프로젝트 내부에서 허용한다.",
+    match = [
+        "find . -name '*.ts'",
+        "find src -type f",
+    ],
+)
+
+# PowerShell 읽기 명령도 allow로 둔다. 더 넓은 shell 래퍼보다 직접 명령을 우선한다.
+prefix_rule(
+    pattern = ["Get-ChildItem"],
+    decision = "allow",
+    justification = "프로젝트 내부 파일 목록 확인은 자동 허용한다.",
+    match = [
+        "Get-ChildItem",
+        "Get-ChildItem -Force",
+    ],
+)
+
+prefix_rule(
+    pattern = ["Get-Location"],
+    decision = "allow",
+    justification = "현재 경로 확인은 자동 허용한다.",
+    match = [
+        "Get-Location",
+        "Get-Location | Out-String",
+    ],
+)
+
+prefix_rule(
+    pattern = ["Get-Content"],
+    decision = "allow",
+    justification = "프로젝트 내부 파일 읽기는 자동 허용한다.",
+    match = [
+        "Get-Content AGENTS.md",
+        "Get-Content .codex/config.toml",
+    ],
+)
+
+prefix_rule(
+    pattern = ["Select-String"],
+    decision = "allow",
+    justification = "프로젝트 내부 문자열 검색은 자동 허용한다.",
+    match = [
+        "Select-String -Pattern TODO AGENTS.md",
+        "Select-String -Pattern FIXME src\\app.ps1",
+    ],
+)
+
+# git 조회와 검증은 자동 허용하고, 변경과 배포성 작업은 더 엄격하게 본다.
+prefix_rule(
+    pattern = ["git", "status"],
+    decision = "allow",
+    justification = "작업 트리 상태 확인은 자동 허용한다.",
+    match = [
+        "git status",
+        "git status --short",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "diff"],
+    decision = "allow",
+    justification = "변경 내용 확인은 자동 허용한다.",
+    match = [
+        "git diff",
+        "git diff --stat",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "log"],
+    decision = "allow",
+    justification = "커밋 이력 조회는 자동 허용한다.",
+    match = [
+        "git log",
+        "git log --oneline -n 5",
+    ],
+)
+
+# 안전한 테스트와 빌드는 자동 허용한다. 더 강한 추론이나 네트워크가 필요한 설치는 별도 승인으로 분리한다.
+prefix_rule(
+    pattern = ["python"],
+    decision = "allow",
+    justification = "프로젝트 내부 Python 실행과 테스트는 자동 허용한다.",
+    match = [
+        "python",
+        "python --version",
+    ],
+)
+
+prefix_rule(
+    pattern = ["python", "-m", "pytest"],
+    decision = "allow",
+    justification = "Python 테스트 실행은 자동 허용한다.",
+    match = [
+        "python -m pytest",
+        "python -m pytest -q",
+    ],
+)
+
+prefix_rule(
+    pattern = ["pytest"],
+    decision = "allow",
+    justification = "Python 테스트 실행은 자동 허용한다.",
+    match = [
+        "pytest",
+        "pytest -q",
+    ],
+)
+
+prefix_rule(
+    pattern = ["npm", "test"],
+    decision = "allow",
+    justification = "Node 테스트 실행은 자동 허용한다.",
+    match = [
+        "npm test",
+        "npm test -- --runInBand",
+    ],
+)
+
+prefix_rule(
+    pattern = ["npm", "run", "lint"],
+    decision = "allow",
+    justification = "Lint 검사는 자동 허용한다.",
+    match = [
+        "npm run lint",
+        "npm run lint -- --fix",
+    ],
+)
+
+prefix_rule(
+    pattern = ["npm", "run", "build"],
+    decision = "allow",
+    justification = "빌드 검증은 자동 허용한다.",
+    match = [
+        "npm run build",
+        "npm run build -- --mode production",
+    ],
+)
+
+# 파일과 폴더 생성, 안전한 패치는 프로젝트 내부 변경을 빠르게 진행하게 해준다.
+prefix_rule(
+    pattern = ["mkdir"],
+    decision = "allow",
+    justification = "프로젝트 내부 디렉터리 생성은 자동 허용한다.",
+    match = [
+        "mkdir .codex",
+        "mkdir src",
+    ],
+)
+
+prefix_rule(
+    pattern = ["touch"],
+    decision = "allow",
+    justification = "빈 파일 생성은 자동 허용한다.",
+    match = [
+        "touch AGENTS.md",
+        "touch .codex/rules/default.rules",
+    ],
+)
+
+prefix_rule(
+    pattern = ["New-Item"],
+    decision = "allow",
+    justification = "PowerShell 파일 생성은 자동 허용한다.",
+    match = [
+        "New-Item .codex -ItemType Directory",
+        "New-Item .codex/rules/default.rules -ItemType File",
+    ],
+)
+
+prefix_rule(
+    pattern = ["apply_patch"],
+    decision = "allow",
+    justification = "작은 안전 수정은 자동 허용한다.",
+    match = [
+        "apply_patch",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "apply"],
+    decision = "allow",
+    justification = "패치 적용은 자동 허용한다.",
+    match = [
+        "git apply change.patch",
+        "git apply --check change.patch",
+    ],
+)
+
+prefix_rule(
+    pattern = ["patch"],
+    decision = "allow",
+    justification = "패치 적용은 자동 허용한다.",
+    match = [
+        "patch -p1 < change.patch",
+        "patch -p0 < change.patch",
+    ],
+)
+
+# 설치와 커밋 계열은 결과가 넓게 퍼질 수 있으므로 prompt로 둔다.
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "prompt",
+    justification = "커밋은 변경을 고정하므로 실행 전 확인이 필요하다.",
+    match = [
+        "git commit -m test",
+        "git commit --amend",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "reset"],
+    decision = "prompt",
+    justification = "reset은 작업 내용을 되돌릴 수 있어 실행 전 확인이 필요하다.",
+    match = [
+        "git reset --soft HEAD~1",
+        "git reset --hard HEAD~1",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "clean"],
+    decision = "prompt",
+    justification = "clean은 파일을 지울 수 있어 실행 전 확인이 필요하다.",
+    match = [
+        "git clean -fd",
+        "git clean -xfd",
+    ],
+)
+
+prefix_rule(
+    pattern = ["pip", "install"],
+    decision = "prompt",
+    justification = "외부 패키지 설치는 네트워크와 환경 변경 가능성이 있어 확인이 필요하다.",
+    match = [
+        "pip install requests",
+        "pip install -r requirements.txt",
+    ],
+)
+
+prefix_rule(
+    pattern = ["npm", "install"],
+    decision = "prompt",
+    justification = "의존성 설치는 네트워크와 lockfile 변경 가능성이 있어 확인이 필요하다.",
+    match = [
+        "npm install",
+        "npm install lodash",
+    ],
+)
+
+# 아래 명령은 변경을 되돌리거나 환경을 바꿀 수 있으므로 승인을 요구한다.
+prefix_rule(
+    pattern = ["bash"],
+    decision = "prompt",
+    justification = "복합 셸 스크립트는 숨은 동작이 섞일 수 있어 확인이 필요하다.",
+    match = [
+        "bash -lc git status",
+        "bash -lc 'npm test'",
+    ],
+)
+
+prefix_rule(
+    pattern = ["powershell"],
+    decision = "prompt",
+    justification = "PowerShell 스크립트는 복합 동작을 숨길 수 있어 확인이 필요하다.",
+    match = [
+        "powershell -Command Get-ChildItem",
+        "powershell -Command 'git status'",
+    ],
+)
+
+prefix_rule(
+    pattern = ["pwsh"],
+    decision = "prompt",
+    justification = "PowerShell Core 스크립트는 복합 동작을 숨길 수 있어 확인이 필요하다.",
+    match = [
+        "pwsh -Command Get-ChildItem",
+        "pwsh -Command 'git status'",
+    ],
+)
+
+prefix_rule(
+    pattern = ["cmd"],
+    decision = "prompt",
+    justification = "cmd 스크립트는 복합 동작을 숨길 수 있어 확인이 필요하다.",
+    match = [
+        "cmd /c dir",
+        "cmd /c git status",
+    ],
+)
+
+# 위험한 삭제와 배포성 변경은 자동 차단한다.
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "forbidden",
+    justification = "원격 push는 저장소 외부에 영향을 주므로 금지한다.",
+    match = [
+        "git push",
+        "git push origin main",
+    ],
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "강제 재귀 삭제는 광범위한 손상을 낼 수 있으므로 금지한다. 필요하면 더 좁은 경로를 먼저 확인하라.",
+    match = [
+        "rm -rf data",
+        "rm -rf /tmp/cache",
+    ],
+)
+
+prefix_rule(
+    pattern = ["Remove-Item", "-Recurse", "-Force"],
+    decision = "forbidden",
+    justification = "강제 재귀 삭제는 광범위한 손상을 낼 수 있으므로 금지한다. 필요하면 더 좁은 경로를 먼저 확인하라.",
+    match = [
+        "Remove-Item -Recurse -Force .\\build",
+        "Remove-Item -Recurse -Force C:\\temp\\old",
+    ],
+)
+
+# 비밀 파일 접근은 명시적으로 차단한다. 더 안전한 대안은 필요한 값만 환경 변수로 주입하는 것이다.
+prefix_rule(
+    pattern = ["cat", ".env"],
+    decision = "forbidden",
+    justification = "비밀 값이 들어 있는 파일 출력은 금지한다. 필요하면 환경 변수나 안전한 비밀 저장소를 사용하라.",
+    match = [
+        "cat .env",
+    ],
+)
+
+prefix_rule(
+    pattern = ["Get-Content", ".env"],
+    decision = "forbidden",
+    justification = "비밀 값이 들어 있는 파일 출력은 금지한다. 필요하면 환경 변수나 안전한 비밀 저장소를 사용하라.",
+    match = [
+        "Get-Content .env",
+    ],
+)
+
+prefix_rule(
+    pattern = ["Select-String", ".env"],
+    decision = "forbidden",
+    justification = "비밀 값이 들어 있는 파일 검색은 금지한다. 필요하면 환경 변수나 안전한 비밀 저장소를 사용하라.",
+    match = [
+        "Select-String .env",
+    ],
+)
+
+prefix_rule(
+    pattern = ["rg", ".env"],
+    decision = "forbidden",
+    justification = "비밀 값이 들어 있는 파일 검색은 금지한다. 필요하면 환경 변수나 안전한 비밀 저장소를 사용하라.",
+    match = [
+        "rg .env",
+    ],
+)
+
+prefix_rule(
+    pattern = ["grep", ".env"],
+    decision = "forbidden",
+    justification = "비밀 값이 들어 있는 파일 검색은 금지한다. 필요하면 환경 변수나 안전한 비밀 저장소를 사용하라.",
+    match = [
+        "grep .env",
+    ],
+)
