@@ -10,17 +10,17 @@ description: Build or update a single standalone index.html page for one-page we
 1. Inspect the current environment first: OS, shell, repository root, `.codex/` structure, existing `index.html`, and existing hooks.
 2. Identify the user's topic, purpose, audience, and visual style.
 3. If any core point is ambiguous, ask 3 short questions before editing. Give 3 clear choices for each question.
-4. Use the `html-builder` agent to create or update only `index.html`.
+4. Use the `html-builder` agent to create or update the requested standalone HTML file. Default to `index.html` unless the user names another single HTML file explicitly.
 5. Keep HTML, CSS, and JS in the same file.
 6. Use `<style>` for CSS and `<script>` only when needed.
 7. Let the configured hooks validate the change:
-   - `PostToolUse` checks the HTML structure right after `index.html` changes.
+   - `PostToolUse` checks the HTML structure right after the touched HTML file changes.
    - `Stop` performs final checks and auto-commit if allowed.
 8. Report assumptions when no answer is provided and proceed with a safe default.
 
 ## Rules
 
-- Edit only `index.html` unless the user explicitly asks for something else.
+- Edit only the single requested HTML file unless the user explicitly asks for something else.
 - Do not use external CDN assets, npm packages, React, or Vue.
 - Prefer semantic HTML, responsive layout, and clear content hierarchy.
 - Use the user's supplied data first. If data is missing or uncertain, label it as `예시 데이터` or `미확인`.

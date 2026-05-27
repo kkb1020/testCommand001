@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Planner | 프랑스 19박 20일 일정</title>
+  <style>
+    :root {
+      --bg: #071018;
+      --bg-2: #0d1724;
+      --panel: rgba(11, 19, 31, 0.82);
+      --panel-strong: rgba(18, 28, 44, 0.96);
+      --line: rgba(255, 255, 255, 0.12);
+      --line-strong: rgba(255, 255, 255, 0.2);
+      --text: #f4f7fb;
+      --muted: #c0cde0;
+      --accent: #ffb703;
+      --accent-2: #5dd6c4;
+      --accent-3: #ff7a59;
+      --shadow: 0 30px 70px rgba(0, 0, 0, 0.38);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 16%, rgba(255, 183, 3, 0.18), transparent 20%),
+        radial-gradient(circle at 88% 14%, rgba(93, 214, 196, 0.18), transparent 18%),
+        radial-gradient(circle at 72% 72%, rgba(255, 122, 89, 0.14), transparent 22%),
+        linear-gradient(180deg, #050a10 0%, var(--bg) 46%, #060b11 100%);
+      font-family: "Noto Sans KR", "Segoe UI", system-ui, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+
+    .page {
+      width: min(1240px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 18px 0 40px;
+    }
+
+    .topbar,
+    .hero,
+    .section-box,
+    .detail-shell,
+    .city-card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(18, 27, 43, 0.88), rgba(8, 14, 24, 0.9));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 22px;
+      border-radius: 26px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      background: linear-gradient(135deg, var(--accent), #ffdf7e);
+      color: #1b2430;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      box-shadow: 0 14px 30px rgba(255, 183, 3, 0.26);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .top-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .top-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .top-links a:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: stretch;
+      border-radius: 32px;
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+
+    .hero-copy {
+      padding: 10px 6px 10px 2px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255, 183, 3, 0.14);
+      border: 1px solid rgba(255, 183, 3, 0.24);
+      color: #ffe2a3;
+      font-size: 0.86rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      margin: 18px 0 12px;
+      font-size: clamp(2.1rem, 4.5vw, 4.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 1.02rem;
+      max-width: 62ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 22px 0 18px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      font-weight: 700;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button.primary {
+      background: linear-gradient(135deg, var(--accent), #ffd978);
+      color: #1b2430;
+    }
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.55rem;
+      margin-bottom: 6px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.93rem;
+    }
+
+    .city-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .city-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      padding: 22px;
+      min-height: 224px;
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .city-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.06) 38%, transparent 72%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .city-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+    }
+
+    .city-card.active {
+      border-color: rgba(255, 183, 3, 0.4);
+      box-shadow: 0 28px 72px rgba(255, 183, 3, 0.12), var(--shadow);
+    }
+
+    .city-card.france {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 183, 3, 0.2), transparent 28%),
+        radial-gradient(circle at 84% 12%, rgba(93, 214, 196, 0.18), transparent 22%),
+        linear-gradient(180deg, rgba(18, 30, 49, 0.94), rgba(10, 16, 26, 0.96));
+    }
+
+    .city-card.gumi {
+      background:
+        radial-gradient(circle at 78% 20%, rgba(255, 122, 89, 0.18), transparent 26%),
+        radial-gradient(circle at 22% 76%, rgba(93, 214, 196, 0.12), transparent 24%),
+        linear-gradient(180deg, rgba(18, 30, 49, 0.92), rgba(10, 16, 26, 0.96));
+    }
+
+    .city-card .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .city-card h3 {
+      margin: 16px 0 8px;
+      font-size: 1.7rem;
+      letter-spacing: -0.03em;
+    }
+
+    .city-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 40ch;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .section {
+      margin-bottom: 22px;
+    }
+
+    .section-box {
+      border-radius: 30px;
+      padding: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 74ch;
+    }
+
+    .detail-shell {
+      border-radius: 28px;
+      padding: 0;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      min-height: 640px;
+    }
+
+    .detail-main {
+      padding: 24px;
+      border-right: 1px solid var(--line);
+    }
+
+    .detail-side {
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .destination-title {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .destination-title h4 {
+      margin: 0;
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .destination-title span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .route-info {
+      display: grid;
+      gap: 14px;
+      margin: 18px 0 20px;
+    }
+
+    .route-summary {
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255, 183, 3, 0.11), rgba(93, 214, 196, 0.09));
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.15rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+
+    .day-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 20px 0 18px;
+    }
+
+    .day-tab {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      padding: 10px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+    }
+
+    .day-tab:hover {
+      transform: translateY(-1px);
+      color: var(--text);
+    }
+
+    .day-tab.is-active {
+      background: linear-gradient(135deg, rgba(255, 183, 3, 0.18), rgba(255, 122, 89, 0.12));
+      border-color: rgba(255, 183, 3, 0.3);
+      color: var(--text);
+    }
+
+    .day-card {
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+    }
+
+    .day-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .day-card h5 {
+      margin: 0 0 10px;
+      font-size: 1.45rem;
+      letter-spacing: -0.03em;
+    }
+
+    .day-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .day-list {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .day-list li {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .side-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+    }
+
+    .side-card h5 {
+      margin: 0 0 10px;
+      font-size: 1.06rem;
+    }
+
+    .side-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .list li:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .list strong {
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .footer {
+      padding: 10px 0 0;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+      font-size: 0.94rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1060px) {
+      .hero,
+      .detail-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-main {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 16px, 1240px);
+        padding-top: 10px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+      }
+
+      .hero,
+      .section-box,
+      .detail-main,
+      .detail-side {
+        padding: 18px;
+      }
+
+      .city-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-metrics,
+      .stats-row {
+        grid-template-columns: 1fr;
+      }
+
+      .destination-title h4 {
+        font-size: 1.65rem;
+      }
+
+      .section-head h3 {
+        font-size: 1.24rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">TP</div>
+        <div>
+          <h1>Travel Planner</h1>
+          <p>도시를 고르고, 여행 계획을 펼쳐보는 단일 페이지</p>
+        </div>
+      </div>
+      <nav class="top-links" aria-label="빠른 이동">
+        <a href="#destinations">도시 선택</a>
+        <a href="#itinerary">일정 보기</a>
+        <a href="#notes">준비 메모</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow">France / Gumi</span>
+        <h2 id="hero-title">첫 화면에서 도시를 고르고, 여행의 밀도를 바로 확인하세요.</h2>
+        <p>
+          이 화면은 <strong>프랑스 여행</strong>과 <strong>구미 여행</strong> 두 도시를 먼저 보여주고,
+          프랑스를 선택하면 <strong>19박 20일</strong> 일정이 단계적으로 펼쳐지는 구조입니다.
+          긴 일정은 도시별로 끊어서 보고, 필요한 부분만 빠르게 다시 열어볼 수 있게 만들었습니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#destinations">도시 선택하기</a>
+          <a class="button secondary" href="#itinerary">프랑스 일정 보기</a>
+        </div>
+      </div>
+
+      <aside class="hero-metrics" aria-label="여행 핵심 정보">
+        <div class="metric">
+          <strong>19박 20일</strong>
+          <span>프랑스 주요도시를 잇는 장거리 일정</span>
+        </div>
+        <div class="metric">
+          <strong>8개 도시</strong>
+          <span>파리, 랭스, 스트라스부르, 리옹, 아비뇽, 마르세유, 니스, 보르도</span>
+        </div>
+        <div class="metric">
+          <strong>TGV 중심</strong>
+          <span>장거리 이동은 고속철, 도심은 도보와 지하철 위주</span>
+        </div>
+        <div class="metric">
+          <strong>선택형 UI</strong>
+          <span>첫 화면에서 도시를 누르면 해당 일정이 즉시 바뀜</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="destinations">
+      <div class="section-box">
+        <div class="section-head">
+          <div>
+            <h3>도시 선택</h3>
+            <p>프랑스와 구미를 나란히 보여주고, 선택한 도시의 일정만 아래 상세 영역에 노출합니다.</p>
+          </div>
+        </div>
+
+        <div class="city-strip">
+          <article class="city-card france active" data-destination="france" tabindex="0" role="button" aria-pressed="true">
+            <span class="tag">프랑스 여행 · 19박 20일</span>
+            <h3>프랑스 여행</h3>
+            <p>파리에서 시작해 주요 도시를 차례로 잇는 장거리 일정입니다. 클릭하면 전체 계획이 펼쳐집니다.</p>
+            <div class="card-meta">
+              <span class="pill">Paris</span>
+              <span class="pill">Lyon</span>
+              <span class="pill">Nice</span>
+              <span class="pill">Bordeaux</span>
+            </div>
+          </article>
+
+          <article class="city-card gumi" data-destination="gumi" tabindex="0" role="button" aria-pressed="false">
+            <span class="tag">구미 여행 · 로컬 코스</span>
+            <h3>구미 여행</h3>
+            <p>도시 선택용 카드로 두고, 로컬 산책·야경·먹거리 중심의 짧은 여행 메모를 볼 수 있게 구성했습니다.</p>
+            <div class="card-meta">
+              <span class="pill">금오산</span>
+              <span class="pill">동락공원</span>
+              <span class="pill">역세권</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="itinerary">
+      <div class="section-box">
+        <div class="section-head">
+          <div>
+            <h3 id="detail-heading">프랑스 19박 20일 일정</h3>
+            <p id="detail-lead">파리 중심의 시작, 동부와 남부를 거쳐 대서양권까지 이어지는 프랑스 주요도시 여행입니다.</p>
+          </div>
+        </div>
+
+        <div class="detail-shell">
+          <div class="detail-main">
+            <div class="destination-title">
+              <h4 id="detail-title">프랑스 여행</h4>
+              <span id="detail-subtitle">19박 20일 · 주요 도시 순환 루트</span>
+            </div>
+
+            <div class="route-info">
+              <div class="route-summary" id="route-summary"></div>
+              <div class="stats-row" id="stats-row"></div>
+            </div>
+
+            <div class="day-nav" id="day-nav" aria-label="일정 선택"></div>
+            <div id="day-panel"></div>
+          </div>
+
+          <aside class="detail-side">
+            <div class="stack" id="side-stack"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="notes">
+      <div class="section-box">
+        <div class="section-head">
+          <div>
+            <h3>준비 메모</h3>
+            <p>긴 일정은 이동 동선이 중요해서, 도시별 체류 일수와 이동 날을 분리해 보는 편이 관리하기 쉽습니다.</p>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <strong>이동 기준</strong>
+            <span>장거리 이동은 TGV, 시내 이동은 걷기와 지하철을 기본으로 잡았습니다.</span>
+          </div>
+          <div class="stat">
+            <strong>루트 구성</strong>
+            <span>파리 → 랭스 → 스트라스부르 → 리옹 → 아비뇽 → 마르세유 → 니스 → 보르도 순으로 배치했습니다.</span>
+          </div>
+          <div class="stat">
+            <strong>적용 방식</strong>
+            <span>프랑스 카드가 기본 선택 상태이며, 구미 카드를 눌러 다른 도시로 전환할 수 있습니다.</span>
+          </div>
+          <div class="stat">
+            <strong>구성 목표</strong>
+            <span>첫 화면에서 선택성을 확보하고, 프랑스 일정은 바로 읽히는 타임라인으로 정리했습니다.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>프랑스 여행은 19박 20일 일정으로 구성했고, 첫 화면의 도시 카드에서 바로 전환할 수 있게 만들었습니다.</p>
+      <p>구미 여행 카드는 도시 선택용 대안으로 남겨 두었습니다.</p>
+    </footer>
+  </div>
+
+  <script>
+    const destinations = {
+      france: {
+        title: "프랑스 여행",
+        subtitle: "19박 20일 · 주요 도시 순환 루트",
+        heading: "프랑스 19박 20일 일정",
+        lead: "파리에서 시작해 동부와 남부, 대서양권까지 넓게 훑는 프랑스 주요도시 여행입니다.",
+        summary: [
+          "이 일정은 파리에서 출발해 랭스, 스트라스부르, 리옹, 아비뇽, 마르세유, 니스, 보르도를 차례로 연결하는 19박 20일 루트입니다.",
+          "도시마다 1~3박씩 나눠 체류하고, 장거리 이동은 TGV를 중심으로 배치했습니다.",
+          "마지막 날은 보르도에서 파리로 복귀하거나, 귀국편 시간에 맞춰 일정만 조정하면 됩니다."
+        ],
+        stats: [
+          { label: "총 기간", value: "19박 20일", note: "도시 이동 포함" },
+          { label: "핵심 도시", value: "8개", note: "파리·랭스·스트라스부르·리옹·아비뇽·마르세유·니스·보르도" },
+          { label: "이동 수단", value: "TGV + 도보", note: "도심은 짧게 끊어 걷는 방식" },
+          { label: "여정 성격", value: "남북 순환", note: "동부와 남부를 크게 묶는 구조" }
+        ],
+        routePoints: [
+          "Paris - 시작과 복귀를 담당하는 허브",
+          "Reims - 샴페인 지역의 첫 전환점",
+          "Strasbourg - 동부 프랑스의 고풍스러운 중심지",
+          "Lyon - 미식과 도시 산책의 핵심 구간",
+          "Avignon - 프로방스 감성의 연결 지점",
+          "Marseille - 지중해와 항구 분위기",
+          "Nice - 해안 휴식과 여유로운 체류",
+          "Bordeaux - 와인과 역사 지구",
+          "Paris - 출발 전 최종 정리"
+        ],
+        days: [
+          {
+            day: "Day 1",
+            city: "Paris",
+            night: "1박",
+            title: "파리 도착, 세느강 산책으로 시작",
+            bullets: [
+              "오후 도착 후 숙소 체크인",
+              "센 강 주변과 오페라 지구를 가볍게 산책",
+              "시차 적응과 이동 동선 정리"
+            ],
+            focus: "첫날은 무리하지 않고 중심부 분위기를 익히는 데 집중합니다."
+          },
+          {
+            day: "Day 2",
+            city: "Paris",
+            night: "2박",
+            title: "루브르와 튈르리, 파리의 대표 동선",
+            bullets: [
+              "루브르 박물관 핵심 동선",
+              "튈르리 정원과 팔레 루아얄 산책",
+              "저녁에는 센 강 유람 또는 야경 감상"
+            ],
+            focus: "처음 이틀은 파리의 클래식한 풍경을 잡는 구간입니다."
+          },
+          {
+            day: "Day 3",
+            city: "Paris",
+            night: "3박",
+            title: "몽마르트르와 생제르맹, 동네 감성 채우기",
+            bullets: [
+              "몽마르트르 언덕과 사크레쾨르",
+              "라틴지구와 생제르맹 카페 탐방",
+              "책방, 베이커리, 소규모 갤러리 중심"
+            ],
+            focus: "유명 관광지보다 동네 분위기를 살리는 날로 둡니다."
+          },
+          {
+            day: "Day 4",
+            city: "Paris",
+            night: "4박",
+            title: "파리 근교 또는 박물관 보강",
+            bullets: [
+              "베르사유 반나절 이동",
+              "오르세 또는 오랑주리 보강",
+              "야간에는 개선문 일대 야경"
+            ],
+            focus: "4일차는 본격적인 장거리 이동 전에 파리 체류를 마무리합니다."
+          },
+          {
+            day: "Day 5",
+            city: "Reims",
+            night: "5박",
+            title: "랭스로 이동, 샴페인 지역의 시작",
+            bullets: [
+              "TGV 또는 고속열차로 랭스 이동",
+              "대성당과 시내 중심가 산책",
+              "샴페인 하우스 투어를 일정에 포함"
+            ],
+            focus: "파리와 완전히 다른 도시 결을 느끼는 전환점입니다."
+          },
+          {
+            day: "Day 6",
+            city: "Strasbourg",
+            night: "6박",
+            title: "스트라스부르 이동, 구시가지 첫 탐색",
+            bullets: [
+              "도착 후 숙소 정리",
+              "프티 프랑스 지구와 운하 주변 산책",
+              "석양 시간에 대성당 전망"
+            ],
+            focus: "동부 프랑스 특유의 독일풍 건축이 살아나는 구간입니다."
+          },
+          {
+            day: "Day 7",
+            city: "Strasbourg",
+            night: "7박",
+            title: "유럽 지구와 대성당, 도시의 균형 보기",
+            bullets: [
+              "스트라스부르 대성당 내부와 광장",
+              "유럽의회 주변과 현대적 도시 풍경",
+              "저녁에는 알자스식 식사"
+            ],
+            focus: "역사 지구와 현대 지구를 한 번에 보며 도시 리듬을 잡습니다."
+          },
+          {
+            day: "Day 8",
+            city: "Lyon",
+            night: "8박",
+            title: "리옹 이동, 미식 도시로 진입",
+            bullets: [
+              "구시가지와 푸니쿨라 동선",
+              "포흐비에르 언덕 전망",
+              "저녁은 부숑(Bouchon) 스타일 식사"
+            ],
+            focus: "여행의 중심축이 파리에서 남동부로 넘어갑니다."
+          },
+          {
+            day: "Day 9",
+            city: "Lyon",
+            night: "9박",
+            title: "리옹의 미식과 강변 산책",
+            bullets: [
+              "뤼미에르 박물관 또는 현대미술관 선택",
+              "론 강과 손 강 합류부 산책",
+              "카페와 시장 중심의 여유로운 일정"
+            ],
+            focus: "하루를 천천히 써도 아깝지 않은 도시 체류일입니다."
+          },
+          {
+            day: "Day 10",
+            city: "Avignon",
+            night: "10박",
+            title: "아비뇽으로 이동, 프로방스 감성 시작",
+            bullets: [
+              "교황청과 구시가지 중심 동선",
+              "돌길과 광장, 소규모 상점 탐방",
+              "저녁에는 로컬 레스토랑"
+            ],
+            focus: "남프랑스의 색감이 본격적으로 살아나는 날입니다."
+          },
+          {
+            day: "Day 11",
+            city: "Avignon",
+            night: "11박",
+            title: "아비뇽 근교와 프로방스 풍경",
+            bullets: [
+              "퐁 뒤 가르 또는 근교 마을 반나절",
+              "시장 방문과 과일, 치즈 쇼핑",
+              "저녁에는 광장 중심 산책"
+            ],
+            focus: "도시와 근교를 같이 묶어서 프로방스의 질감을 채웁니다."
+          },
+          {
+            day: "Day 12",
+            city: "Marseille",
+            night: "12박",
+            title: "마르세유 도착, 항구 도시의 속도로 전환",
+            bullets: [
+              "구항구(Vieux-Port) 주변 체크인",
+              "파니에 지구와 항구 산책",
+              "바다 풍경이 보이는 저녁"
+            ],
+            focus: "내륙 도시에서 지중해 항구 도시로 분위기가 크게 바뀝니다."
+          },
+          {
+            day: "Day 13",
+            city: "Marseille",
+            night: "13박",
+            title: "칼랑크와 해안선, 마르세유를 깊게 보기",
+            bullets: [
+              "칼랑크 국립공원 또는 해안 투어",
+              "노트르담 드 라 가르드 전망",
+              "저녁에는 해산물 중심 식사"
+            ],
+            focus: "자연과 도심을 함께 보는, 체류 밀도가 높은 날입니다."
+          },
+          {
+            day: "Day 14",
+            city: "Nice",
+            night: "14박",
+            title: "니스 이동, 코트다쥐르로 진입",
+            bullets: [
+              "프로므나드 데 장글레 산책",
+              "구시가지와 마르셰 중심 동선",
+              "해변가에서 긴 휴식"
+            ],
+            focus: "남프랑스의 휴양 감성이 가장 강하게 드러나는 구간입니다."
+          },
+          {
+            day: "Day 15",
+            city: "Nice",
+            night: "15박",
+            title: "니스의 전망 포인트와 박물관",
+            bullets: [
+              "캐슬 힐 또는 전망 포인트",
+              "마티스 박물관 혹은 샤갈 박물관",
+              "밤에는 해변가 산책"
+            ],
+            focus: "도시, 바다, 예술을 균형 있게 넣는 하루입니다."
+          },
+          {
+            day: "Day 16",
+            city: "Cannes / Antibes",
+            night: "16박",
+            title: "칸 또는 앙티브 당일치기",
+            bullets: [
+              "기차로 해안 도시 이동",
+              "산책형 일정으로 강약 조절",
+              "저녁에는 니스 복귀 후 휴식"
+            ],
+            focus: "코트다쥐르의 다른 결을 한 번 더 확인하는 보강일입니다."
+          },
+          {
+            day: "Day 17",
+            city: "Bordeaux",
+            night: "17박",
+            title: "보르도 이동, 와인 도시의 시작",
+            bullets: [
+              "역사 지구와 강변 산책",
+              "거울 광장과 시청 주변",
+              "저녁에는 와인 바 또는 브라세리"
+            ],
+            focus: "지중해권에서 대서양권으로 분위기를 바꾸는 큰 전환점입니다."
+          },
+          {
+            day: "Day 18",
+            city: "Bordeaux",
+            night: "18박",
+            title: "보르도 심화, 생테밀리옹 옵션 포함",
+            bullets: [
+              "시내 미식 루트 정리",
+              "시간이 되면 생테밀리옹 당일치기",
+              "마지막 밤 일정과 귀국 동선 확인"
+            ],
+            focus: "여행 후반부라 속도를 낮추고 정리하는 하루로 두는 것이 좋습니다."
+          },
+          {
+            day: "Day 19",
+            city: "Paris",
+            night: "19박",
+            title: "파리 복귀, 출국 전 마지막 정리",
+            bullets: [
+              "보르도에서 파리 이동",
+              "숙소 정리와 짐 재배치",
+              "시간이 남으면 샤틀레 또는 생라자르 권역 산책"
+            ],
+            focus: "귀국 전에 파리에서 한 번 더 묶어두면 이동 리스크가 낮습니다."
+          },
+          {
+            day: "Day 20",
+            city: "Paris",
+            night: "출국",
+            title: "출국 또는 귀국편 탑승",
+            bullets: [
+              "항공편 시간에 맞춰 공항 이동",
+              "환전, 영수증, 면세 정리",
+              "여정 메모와 사진 백업"
+            ],
+            focus: "마지막 날은 이동만 남겨두고 여유 있게 마무리하는 편이 안전합니다."
+          }
+        ],
+        side: [
+          {
+            title: "추천 체류 리듬",
+            lines: [
+              ["파리", "4박"],
+              ["랭스", "1박"],
+              ["스트라스부르", "2박"],
+              ["리옹", "2박"],
+              ["아비뇽", "2박"],
+              ["마르세유", "2박"],
+              ["니스", "3박"],
+              ["보르도", "2박"],
+              ["파리 복귀", "1박"]
+            ]
+          },
+          {
+            title: "이동 메모",
+            lines: [
+              ["장거리", "TGV 우선"],
+              ["도심", "도보 + 지하철"],
+              ["해안", "짧은 근교 이동"],
+              ["마지막 날", "파리로 복귀"]
+            ]
+          },
+          {
+            title: "체크 포인트",
+            lines: [
+              ["예약", "파리·니스·보르도 우선"],
+              ["휴식", "리옹 이후 속도 조절"],
+              ["여유일", "니스와 보르도에 배치"],
+              ["귀국", "19일차에 동선 정리"]
+            ]
+          }
+        ]
+      },
+      gumi: {
+        title: "구미 여행",
+        subtitle: "로컬 코스 · 짧은 도시 메모",
+        heading: "구미 여행 메모",
+        lead: "프랑스 일정 옆에 두는 로컬 여행 카드입니다. 필요하면 뒤에서 구체 일정으로 확장할 수 있습니다.",
+        summary: [
+          "금오산, 동락공원, 역세권 먹거리처럼 짧고 가볍게 움직일 수 있는 구성을 생각한 카드입니다.",
+          "현재는 도시 선택용 대안으로 두고, 프랑스 일정과 대비되도록 간단하게 보여줍니다.",
+          "원하면 다음 단계에서 구미 1박 2일 또는 2박 3일 일정으로 확장할 수 있습니다."
+        ],
+        stats: [
+          { label: "체류 스타일", value: "로컬 산책", note: "짧고 가볍게" },
+          { label: "핵심 포인트", value: "금오산", note: "자연과 전망" },
+          { label: "도심 리듬", value: "먹거리", note: "역세권 중심" },
+          { label: "확장성", value: "추가 가능", note: "원하면 세부 일정 생성" }
+        ],
+        routePoints: [
+          "금오산 - 대표 자연 코스",
+          "동락공원 - 산책과 휴식",
+          "역세권 - 식사와 카페",
+          "야간 산책 - 가볍게 마무리"
+        ],
+        days: [
+          {
+            day: "Day 1",
+            city: "Gumi",
+            night: "1박",
+            title: "도착 후 도시 분위기 익히기",
+            bullets: [
+              "숙소 체크인 후 가볍게 산책",
+              "역세권 먹거리 탐색",
+              "저녁은 부담 없는 로컬 식사"
+            ],
+            focus: "짧은 일정으로 전환할 때 쓰기 좋은 기본형입니다."
+          },
+          {
+            day: "Day 2",
+            city: "Gumi",
+            night: "2박",
+            title: "금오산 또는 공원 중심 반나절",
+            bullets: [
+              "자연 코스와 전망 포인트",
+              "도심 카페 한 번 더",
+              "야간에는 조용한 마무리"
+            ],
+            focus: "프랑스 일정과 달리 이동보다 휴식 비중을 높였습니다."
+          },
+          {
+            day: "Day 3",
+            city: "Gumi",
+            night: "마무리",
+            title: "출발 전 정리와 간단한 쇼핑",
+            bullets: [
+              "기념품 또는 간단한 장보기",
+              "동선 정리 후 귀가",
+              "다음 일정으로 연결"
+            ],
+            focus: "짧은 로컬 여행 카드의 샘플로만 둔 구성입니다."
+          }
+        ],
+        side: [
+          {
+            title: "구미 요약",
+            lines: [
+              ["성격", "짧은 도시 여행"],
+              ["추천", "산책 + 먹거리"],
+              ["확장", "1박 2일 가능"]
+            ]
+          },
+          {
+            title: "메모",
+            lines: [
+              ["현재 상태", "도시 선택 카드"],
+              ["역할", "프랑스와 대비"],
+              ["다음 단계", "세부 일정 추가 가능"]
+            ]
+          }
+        ]
+      }
+    };
+
+    const cityCards = Array.from(document.querySelectorAll(".city-card"));
+    const detailHeading = document.getElementById("detail-heading");
+    const detailLead = document.getElementById("detail-lead");
+    const detailTitle = document.getElementById("detail-title");
+    const detailSubtitle = document.getElementById("detail-subtitle");
+    const routeSummary = document.getElementById("route-summary");
+    const statsRow = document.getElementById("stats-row");
+    const dayNav = document.getElementById("day-nav");
+    const dayPanel = document.getElementById("day-panel");
+    const sideStack = document.getElementById("side-stack");
+    let activeDestination = "france";
+    let activeDayIndex = 0;
+
+    function renderDestination(destinationKey) {
+      const destination = destinations[destinationKey];
+      activeDestination = destinationKey;
+      activeDayIndex = 0;
+
+      cityCards.forEach((card) => {
+        const isActive = card.dataset.destination === destinationKey;
+        card.classList.toggle("active", isActive);
+        card.setAttribute("aria-pressed", String(isActive));
+      });
+
+      detailHeading.textContent = destination.heading;
+      detailLead.textContent = destination.lead;
+      detailTitle.textContent = destination.title;
+      detailSubtitle.textContent = destination.subtitle;
+      routeSummary.innerHTML = destination.summary.map((item) => `<div>${item}</div>`).join("");
+      statsRow.innerHTML = destination.stats.map((stat) => `
+        <div class="stat">
+          <strong>${stat.value}</strong>
+          <span>${stat.label}</span>
+          <span>${stat.note}</span>
+        </div>
+      `).join("");
+
+      dayNav.innerHTML = destination.days.map((day, index) => `
+        <button
+          class="day-tab ${index === activeDayIndex ? "is-active" : ""}"
+          type="button"
+          data-index="${index}"
+          aria-pressed="${index === activeDayIndex}"
+        >${day.day}</button>
+      `).join("");
+
+      renderDay(activeDayIndex);
+      renderSide(destination);
+    }
+
+    function renderDay(index) {
+      const destination = destinations[activeDestination];
+      const day = destination.days[index];
+
+      dayPanel.innerHTML = `
+        <article class="day-card">
+          <div class="day-meta">
+            <span class="badge">${day.city}</span>
+            <span class="badge">${day.night}</span>
+            <span class="badge">${day.day}</span>
+          </div>
+          <h5>${day.title}</h5>
+          <p>${day.focus}</p>
+          <ul class="day-list">
+            ${day.bullets.map((bullet) => `<li>${bullet}</li>`).join("")}
+          </ul>
+        </article>
+      `;
+
+      dayNav.querySelectorAll(".day-tab").forEach((button) => {
+        const isActive = Number(button.dataset.index) === index;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    function renderSide(destination) {
+      sideStack.innerHTML = destination.side.map((section) => `
+        <section class="side-card">
+          <h5>${section.title}</h5>
+          <ul class="list">
+            ${section.lines.map(([label, value]) => `
+              <li><strong>${label}</strong><span>${value}</span></li>
+            `).join("")}
+          </ul>
+        </section>
+      `).join("");
+    }
+
+    cityCards.forEach((card) => {
+      const activate = () => renderDestination(card.dataset.destination);
+      card.addEventListener("click", activate);
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          activate();
+        }
+      });
+    });
+
+    dayNav.addEventListener("click", (event) => {
+      const button = event.target.closest(".day-tab");
+      if (!button) return;
+      activeDayIndex = Number(button.dataset.index);
+      renderDay(activeDayIndex);
+    });
+
+    renderDestination("france");
+  </script>
+</body>
+</html>
